@@ -2,6 +2,7 @@
 
 import Nav from "@/components/Nav";
 import SearchBar from "@/components/SearchBar";
+import { getUserLocation } from "@/utils/userLocation";
 import { useEffect, useState } from "react";
 
 export default function Home() {
@@ -10,24 +11,8 @@ export default function Home() {
     longitude: number;
   } | null>(null);
 
-  const getUserLocation = () => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          const { latitude, longitude } = position.coords;
-          setUserLocation({ latitude, longitude });
-        },
-        (error) => {
-          console.error("Error getting user location:", error);
-        }
-      );
-    } else {
-      console.error("Geolocation is not supported by this browser.");
-    }
-  };
-
   useEffect(() => {
-    getUserLocation();
+    getUserLocation({ setUserLocation });
   }, []);
 
   return (
